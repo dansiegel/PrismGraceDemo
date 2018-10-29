@@ -2,6 +2,7 @@
 using Prism;
 using Prism.Common;
 using Prism.Ioc;
+using Prism.Mvvm;
 using Prism.Navigation;
 using System;
 using Xamarin.Forms;
@@ -53,8 +54,8 @@ namespace GraceDemo.Ioc
                 case Page viewAsPage:
                     page = viewAsPage;
                     break;
-                case VisualElement visualElement:
-                    page = GetPage(visualElement);
+                case BindableObject bindable:
+                    page = bindable.GetValue(ViewModelLocator.AutowirePartialViewProperty) as Page;
                     break;
                 default:
                     return Instance.Locate(viewModelType);
@@ -63,19 +64,6 @@ namespace GraceDemo.Ioc
             var navService = Instance.Locate<INavigationService>(withKey: PrismApplicationBase.NavigationServiceName);
             ((IPageAware)navService).Page = page;
             return Instance.Locate(viewModelType, new[] { navService });
-        }
-
-        private Page GetPage(Element visualElement)
-        {
-            switch(visualElement.Parent)
-            {
-                case Page page:
-                    return page;
-                case null:
-                    return null;
-                default:
-                    return GetPage(visualElement.Parent);
-            }
         }
     }
 }
