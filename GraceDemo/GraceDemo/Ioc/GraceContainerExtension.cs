@@ -24,41 +24,25 @@ namespace GraceDemo.Ioc
 
         public bool SupportsModules => true;
 
-        public void FinalizeExtension()
-        {
-            
-        }
+        public void FinalizeExtension() { }
 
-        public void Register(Type from, Type to)
-        {
-
+        public void Register(Type from, Type to) => 
             Instance.Configure(c => c.Export(to).As(from));
-        }
 
-        public void Register(Type from, Type to, string name)
-        {
+        public void Register(Type from, Type to, string name) => 
             Instance.Configure(c => c.Export(to).AsKeyed(from, name));
-        }
 
-        public void RegisterInstance(Type type, object instance)
-        {
+        public void RegisterInstance(Type type, object instance) => 
             Instance.Configure(c => c.ExportInstance(instance).As(type));
-        }
 
-        public void RegisterSingleton(Type from, Type to)
-        {
+        public void RegisterSingleton(Type from, Type to) => 
             Instance.Configure(c => c.Export(to).As(from).Lifestyle.Singleton());
-        }
 
-        public object Resolve(Type type)
-        {
-            return Instance.Locate(type);
-        }
+        public object Resolve(Type type) => 
+            Instance.Locate(type);
 
-        public object Resolve(Type type, string name)
-        {
-            return Instance.Locate(type, withKey: name);
-        }
+        public object Resolve(Type type, string name) => 
+            Instance.Locate(type, withKey: name);
 
         public object ResolveViewModelForView(object view, Type viewModelType)
         {
