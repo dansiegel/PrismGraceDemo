@@ -1,0 +1,24 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:nav="clr-namespace:Prism.Navigation.Xaml;assembly=Prism.Forms"
+             xmlns:ios="clr-namespace:Xamarin.Forms.PlatformConfiguration.iOSSpecific;assembly=Xamarin.Forms.Core"
+             ios:Page.UseSafeArea="True"
+             x:Class="GraceDemo.Views.MainPage">
+
+    <StackLayout>
+        <Label Text="{Binding Message}" />
+        <Label Text="{Binding HasNavigationService, StringFormat='Has Navigation Service: {0}'}" />
+        <Button Text="Show Alert"
+                Command="{Binding ShowAlert}" />
+        <Button Text="Show PopupPage"
+                Command="{nav:NavigateTo PopupA}">
+            <Button.CommandParameter>
+                <nav:NavigationParameters>
+                    <nav:NavigationParameter Key="message" Value="Hello from the Main Page" />
+                </nav:NavigationParameters>
+            </Button.CommandParameter>
+        </Button>
+    </StackLayout>
+
+</ContentPage>

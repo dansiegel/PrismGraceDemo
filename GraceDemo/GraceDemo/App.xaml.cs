@@ -1,32 +1,33 @@
-﻿using System;
-using Xamarin.Forms;
+﻿using GraceDemo.Ioc;
+using GraceDemo.Views;
+using Prism;
+using Prism.Ioc;
+using Prism.Plugin.Popups;
 using Xamarin.Forms.Xaml;
 
 [assembly: XamlCompilation(XamlCompilationOptions.Compile)]
 namespace GraceDemo
 {
-    public partial class App : Application
+    public partial class App
     {
-        public App()
+        public App() : base() { }
+
+        public App(IPlatformInitializer initializer) : base(initializer) { }
+
+        protected override IContainerExtension CreateContainerExtension() =>
+            new GraceContainerExtension();
+
+        protected override void OnInitialized()
         {
             InitializeComponent();
-
-            MainPage = new MainPage();
+            NavigationService.NavigateAsync("MainPage?message=Hello%20From%20Prism");
         }
 
-        protected override void OnStart()
+        protected override void RegisterTypes(IContainerRegistry containerRegistry)
         {
-            // Handle when your app starts
-        }
-
-        protected override void OnSleep()
-        {
-            // Handle when your app sleeps
-        }
-
-        protected override void OnResume()
-        {
-            // Handle when your app resumes
+            containerRegistry.RegisterPopupNavigationService();
+            containerRegistry.RegisterForNavigation<MainPage>();
+            containerRegistry.RegisterForNavigation<PopupA>();
         }
     }
 }
